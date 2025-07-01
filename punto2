@@ -1,0 +1,49 @@
+
+class Vendedor:
+    """
+    Modela un vendedor con nombre, apellidos y edad.
+    - verificar_edad(): valida la edad y lanza ValueError si no cumple.
+    - imprimir(): muestra los datos por consola.
+    """
+
+    def __init__(self, nombre: str, apellidos: str) -> None:
+        self.nombre = nombre
+        self.apellidos = apellidos
+        self.edad: int | None = None  # Se asignará después de la validación
+
+    # ----- Métodos públicos -------------------------------------------------
+
+    def verificar_edad(self, edad: int) -> None:
+        """Valida la edad (debe ser 18 – 120)."""
+        if edad < 18:
+            raise ValueError("El vendedor debe ser mayor de 18 años.")
+        if edad < 0 or edad > 120:
+            raise ValueError("La edad no puede ser negativa ni mayor a 120.")
+        self.edad = edad
+
+    def imprimir(self) -> None:
+        """Muestra los atributos en consola."""
+        print(f"Nombre del vendedor   = {self.nombre}")
+        print(f"Apellidos del vendedor = {self.apellidos}")
+        print(f"Edad del vendedor      = {self.edad}")
+
+# ---------------------------------------------------------------------------
+
+def main() -> None:
+    """Punto de entrada: solicita datos por teclado y los valida."""
+    nombre = input("Nombre del vendedor: ")
+    apellidos = input("Apellidos del vendedor: ")
+
+    vendedor = Vendedor(nombre, apellidos)
+
+    try:
+        edad_str = input("Edad del vendedor: ")
+        edad = int(edad_str)
+        vendedor.verificar_edad(edad)
+        vendedor.imprimir()
+    except ValueError as err:
+        print(f"Error: {err}")
+
+
+if __name__ == "__main__":
+    main()

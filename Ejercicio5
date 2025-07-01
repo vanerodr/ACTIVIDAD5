@@ -1,0 +1,21 @@
+def main():
+    nombre_archivo = "D:/Python/prueba.txt" #ruta del archivo
+    
+    try:
+        with open(nombre_archivo, 'rb') as archivo: 
+            bytes_leidos = archivo.read()
+            
+            contenido = bytes_leidos.decode('utf-8')
+            
+            #mostrar
+            print(contenido)
+    
+    except FileNotFoundError:
+        print("Error: El archivo no existe.")
+    except IOError:
+        print("Error: No se pudo leer el archivo.")
+    except UnicodeDecodeError:
+        print("Error: No se pudo decodificar el archivo (codificación no válida).")
+
+if __name__ == "__main__":
+    main()

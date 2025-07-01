@@ -1,0 +1,27 @@
+def main():
+    # ───────── Primer bloque try ─────────
+    try:
+        print("Ingresando al primer try")
+        cociente = 10000 / 0              # ZeroDivisionError
+        print("Después de la división")   # No se ejecuta
+    except ZeroDivisionError:             # Equivalente a ArithmeticException
+        print("División por cero")
+    finally:
+        print("Ingresando al primer finally")
+
+    # ───────── Segundo bloque try ─────────
+    try:
+        print("Ingresando al segundo try")
+        objeto = None
+        objeto.to_string()                # AttributeError (subclase de Exception)
+        print("Imprimiendo objeto")       # No se ejecuta
+    except ZeroDivisionError:             # No coincide
+        print("División por cero")
+    except Exception:                     # Captura la AttributeError
+        print("Ocurrió una excepción")
+    finally:
+        print("Ingresando al segundo finally")
+
+
+if __name__ == "__main__":
+    main()

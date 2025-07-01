@@ -1,0 +1,104 @@
+import tkinter as tk
+from tkinter import messagebox
+
+
+class Programador:
+    def __init__(self, nombre, apellidos):
+        self.nombre = nombre
+        self.apellidos = apellidos
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellidos}"
+
+
+class EquipoMaratonProgramacion:
+    def __init__(self, nombre_equipo, universidad, lenguaje):
+        self.nombre_equipo = nombre_equipo
+        self.universidad = universidad
+        self.lenguaje = lenguaje
+        self.integrantes = []
+
+    @staticmethod
+    def validar_campo(campo):
+        if campo.strip() == "":
+            raise ValueError("El campo no puede estar vacío.")
+        if any(char.isdigit() for char in campo):
+            raise ValueError("El campo no debe contener números.")
+        return campo
+
+    def añadir(self, programador):
+        if len(self.integrantes) >= 3:
+            raise Exception("El equipo ya tiene 3 integrantes.")
+        self.integrantes.append(programador)
+
+    def __str__(self):
+        info = f"Equipo: {self.nombre_equipo}\nUniversidad: {self.universidad}\nLenguaje: {self.lenguaje}\n\nIntegrantes:"
+        for p in self.integrantes:
+            info += f"\n - {p}"
+        return info
+
+
+# Interfaz gráfica
+class App:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Registro de Equipo de Programación")
+
+        # Datos del equipo
+        tk.Label(root, text="Nombre del equipo:").grid(row=0, column=0, sticky="e")
+        self.nombre_equipo = tk.Entry(root)
+        self.nombre_equipo.grid(row=0, column=1)
+
+        tk.Label(root, text="Universidad:").grid(row=1, column=0, sticky="e")
+        self.universidad = tk.Entry(root)
+        self.universidad.grid(row=1, column=1)
+
+        tk.Label(root, text="Lenguaje:").grid(row=2, column=0, sticky="e")
+        self.lenguaje = tk.Entry(root)
+        self.lenguaje.grid(row=2, column=1)
+
+        # Datos de los 3 integrantes
+        self.nombres = []
+        self.apellidos = []
+
+        for i in range(3):
+            tk.Label(root, text=f"Nombre integrante {i+1}:").grid(row=4 + i * 2, column=0, sticky="e")
+            nombre_entry = tk.Entry(root)
+            nombre_entry.grid(row=4 + i * 2, column=1)
+            self.nombres.append(nombre_entry)
+
+            tk.Label(root, text=f"Apellidos integrante {i+1}:").grid(row=5 + i * 2, column=0, sticky="e")
+            apellido_entry = tk.Entry(root)
+            apellido_entry.grid(row=5 + i * 2, column=1)
+            self.apellidos.append(apellido_entry)
+
+        # Botón registrar
+        self.registrar_btn = tk.Button(root, text="Registrar equipo", command=self.registrar_equipo)
+        self.registrar_btn.grid(row=10, column=0, columnspan=2, pady=10)
+
+    def registrar_equipo(self):
+        try:
+            nombre_equipo = EquipoMaratonProgramacion.validar_campo(self.nombre_equipo.get())
+            universidad = EquipoMaratonProgramacion.validar_campo(self.universidad.get())
+            lenguaje = EquipoMaratonProgramacion.validar_campo(self.lenguaje.get())
+
+            equipo = EquipoMaratonProgramacion(nombre_equipo, universidad, lenguaje)
+
+            for i in range(3):
+                nombre = EquipoMaratonProgramacion.validar_campo(self.nombres[i].get())
+                apellido = EquipoMaratonProgramacion.validar_campo(self.apellidos[i].get())
+                equipo.añadir(Programador(nombre, apellido))
+
+            messagebox.showinfo("Equipo registrado", str(equipo))
+
+        except ValueError as ve:
+            messagebox.showerror("Error de validación", str(ve))
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+
+# Ejecutar la app
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = App(root)
+    root.mainloop()

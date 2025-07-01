@@ -1,0 +1,39 @@
+# calculos_numericos.py
+import math
+
+class CalculosNumericos:
+    """
+    Ofrece dos métodos estáticos:
+      • calcular_log_neperiano(valor)
+      • calcular_raiz_cuadrada(valor)
+    Ambos lanzan ValueError si el valor no es positivo.
+    """
+
+    @staticmethod
+    def calcular_log_neperiano(valor: float) -> None:
+        """Imprime ln(valor) si valor > 0; de lo contrario lanza ValueError."""
+        if valor <= 0:
+            raise ValueError("El valor debe ser un número positivo para calcular el logaritmo.")
+        resultado = math.log(valor)
+        print(f"Logaritmo neperiano: {resultado}")
+
+    @staticmethod
+    def calcular_raiz_cuadrada(valor: float) -> None:
+        """Imprime √valor si valor > 0; de lo contrario lanza ValueError."""
+        if valor <= 0:
+            raise ValueError("El valor debe ser un número positivo para calcular la raíz cuadrada.")
+        resultado = math.sqrt(valor)
+        print(f"Raíz cuadrada: {resultado}")
+
+def main() -> None:
+    """Solicita un número por teclado y llama a los dos cálculos."""
+    try:
+        valor_str = input("Valor numérico: ")
+        valor = float(valor_str)
+        CalculosNumericos.calcular_log_neperiano(valor)
+        CalculosNumericos.calcular_raiz_cuadrada(valor)
+    except ValueError as err:
+        print(f"Error: {err}")
+
+if __name__ == "__main__":
+    main()
